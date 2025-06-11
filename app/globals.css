@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+:root {
+  /* --background: #ffffff; */
+  /* --foreground: #171717; */
+}
+
+@theme inline {
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    /* --foreground: #ededed; */
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+/* Add these styles for uploadthing */
+@layer components {
+  .ut-button {
+    @apply bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors;
+  }
+
+  .ut-upload-icon {
+    @apply h-10 w-10 text-gray-400;
+  }
+
+  .ut-button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .ut-container {
+    @apply p-4 border-2 border-dashed border-gray-300 rounded-lg;
+  }
+
+  .ut-label {
+    @apply mt-2 text-sm text-gray-500;
+  }
+}
