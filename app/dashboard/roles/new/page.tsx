@@ -8,20 +8,62 @@ export default function NewRolePage() {
   const [selectedRole, setSelectedRole] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setIsSubmitting(true);
 
-    try {
-      // Add your API call here to assign the role
-      toast.success("Role assigned successfully!");
-    } catch (error) {
-      toast.error("Failed to assign role");
-      console.error("Role assignment error:", error);
-    } finally {
-      setIsSubmitting(false);
+//   try {
+//   const res = await fetch("/api/roles", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({
+//       name,           // The new role's name
+//       Permissions,    // An array of permissions, e.g. ["user:read", "role:create"]
+//     }),
+//   });
+
+//   if (!res.ok) {
+//     const data = await res.json();
+//     throw new Error(data.error || "Failed to assign role");
+//   }
+
+//   toast.success("Role assigned successfully!");
+// } catch (error) {
+//   toast.error("Failed to assign role");
+//   console.error("Role assignment error:", error);
+// } finally {
+//   setIsSubmitting(false);
+// }
+//   };
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+
+  try {
+    const res = await fetch("/api/roles", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        roleSlug: selectedRole,  // Using the selectedRole state instead of undefined 'name'
+      }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.error || "Failed to assign role");
     }
-  };
+
+    toast.success("Role assigned successfully!");
+    // Optionally redirect after success
+    window.location.href = "/dashboard/roles"; // or wherever you want to redirect
+  } catch (error) {
+    toast.error("Failed to assign role");
+    console.error("Role assignment error:", error);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="max-w-4xl mx-auto p-6">
